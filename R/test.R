@@ -158,6 +158,9 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     # build the contingency table only for discrete data.
     if (test %in% available.discrete.tests) {
 
+      datax = minimal.data.frame.column(data, x)
+      datay = minimal.data.frame.column(data, y)
+
       # if there is only one parent, get it easy.
       if (length(sx) == 1)
         config = minimal.data.frame.column(data, sx)
@@ -169,9 +172,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     # Conditional Mutual Infomation (chi-square asymptotic distribution)
     if (test == "mi") {
 
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
-
       statistic = cmi.test(datax, datay, config, ndata, gsquare = TRUE)
       df = (nlevels(datax) - 1) * (nlevels(datay) - 1) * nlevels(config)
       p.value = pchisq(statistic, df, lower.tail = FALSE)
@@ -180,9 +180,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     # Shrinked Conditional Mutual Infomation (chi-square asymptotic distribution)
     else if (test == "mi-sh") {
 
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
-
       statistic = shcmi.test(datax, datay, config, ndata, gsquare = TRUE)
       df = (nlevels(datax) - 1) * (nlevels(datay) - 1) * nlevels(config)
       p.value = pchisq(statistic, df, lower.tail = FALSE)
@@ -190,9 +187,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     }#THEN
     # Pearson's X^2 test (chi-square asymptotic distribution)
     else if (test == "x2") {
-
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
 
       statistic = cx2.test(datax, datay, config, ndata)
       df = (nlevels(datax) - 1) * (nlevels(datay) - 1) * nlevels(config)
@@ -243,9 +237,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     # Mutual Infomation (monte carlo permutation distribution)
     else if ((test == "mc-mi") || (test == "smc-mi")) {
 
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
-
       perm.test = cmc.test(datax, datay, config, ndata, samples = B,
                     alpha = ifelse(test == "smc-mi", alpha, 1), test = 1L)
       statistic = perm.test[1]
@@ -255,9 +246,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     }#THEN
     # Mutual Infomation (semiparametric)
     else if (test == "sp-mi") {
-
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
 
       perm.test = cmc.test(datax, datay, config, ndata, samples = B,
                     alpha = 1, test = 6L)
@@ -270,9 +258,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     # Pearson's X^2 test (monte carlo permutation distribution)
     else if ((test == "mc-x2") || (test == "smc-x2")) {
 
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
-
       perm.test = cmc.test(datax, datay, config, ndata, samples = B,
                     alpha = ifelse(test == "smc-x2", alpha, 1), test = 2L)
       statistic = perm.test[1]
@@ -282,9 +267,6 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
     }#THEN
     # Pearson's X^2 test (semiparametric)
     else if (test == "sp-x2") {
-
-      datax = minimal.data.frame.column(data, x)
-      datay = minimal.data.frame.column(data, y)
 
       perm.test = cmc.test(datax, datay, config, ndata, samples = B,
                     alpha = 1, test = 7L)
