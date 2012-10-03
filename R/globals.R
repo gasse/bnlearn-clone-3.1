@@ -1,6 +1,6 @@
 
 # Global variables.
-available.discrete.tests = c("mi", "mi-sh", "x2", "mc-mi", "smc-mi", "mc-x2", "smc-x2", "sp-mi", "sp-x2")
+available.discrete.tests = c("mi", "mi-sh", "x2", "mc-mi", "smc-mi", "mc-x2", "smc-x2", "sp-mi", "sp-x2", "mi-adr")
 available.continuous.tests = c("cor", "zf", "mi-g", "mi-g-sh", "mc-mi-g",
   "smc-mi-g", "mc-cor", "smc-cor", "mc-zf", "smc-zf")
 available.tests = c(available.discrete.tests, available.continuous.tests)
@@ -8,7 +8,7 @@ available.tests = c(available.discrete.tests, available.continuous.tests)
 resampling.semiparam.tests = c("sp-mi", "sp-x2")
 resampling.tests = c("mc-mi", "smc-mi", "mc-x2", "smc-x2", "mc-mi-g", "smc-mi-g",
   "mc-cor", "smc-cor", "mc-zf", "smc-zf", resampling.semiparam.tests)
-asymptotic.tests = c("mi", "mi-g", "x2", "zf")
+asymptotic.tests = c("mi", "mi-g", "x2", "zf", "mi-adr")
 
 available.discrete.scores = c("loglik", "aic", "bic", "bde", "bdes", "k2", "mbde")
 available.continuous.scores = c("bge", "loglik-g", "aic-g", "bic-g")
@@ -61,6 +61,7 @@ method.extra.args = list(
 test.labels = c(
   'mi' = "Mutual Information (discrete)",
   'mi-sh' = "Mutual Information (discrete, shrinkage)",
+  'mi-adr' = "Mutual Information (discrete, adjusted df, data requirement)",
   'mc-mi' = "Mutual Information (discrete, Monte Carlo)",
   'smc-mi' = "Mutual Information (discrete, Sequential Monte Carlo)",
   'sp-mi' = "Mutual Information (discrete, semiparametric)",

@@ -36,6 +36,37 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
       p.value = pchisq(statistic, df, lower.tail = FALSE)
 
     }#THEN
+    # Mutual Infomation with df adjustment and data requirement heuristics
+    # (chi-square asymptotic distribution)
+    else if (test == "mi-adr") {
+
+      # heuristic 1 : when less than 5 individuals per cell in the
+      # contingency table, we claim independence (the test is not reliable)
+      if (nrow(data) < (5 * nlevels(datax) * nlevels(datay))) {
+
+        statistic = -1
+        p.value = 1
+
+      }#THEN
+      else {
+
+        # heuristic 2 : df is lowered when a column or row margin is empty in
+        # the contingency table.
+        test.res = mi.test(datax, datay, ndata, gsquare = TRUE, withdf=TRUE)
+        statistic = test.res[1]
+        df = test.res[3]
+
+        # If the adjustement heuristic returns a df equal to zero, then one of
+        # the X or Y variables can be considered one-dimension given the data
+        # sample. In this case we claim independence.
+        if (df == 0)
+          p.value = 1
+        else
+          p.value = pchisq(statistic, df, lower.tail = FALSE)
+
+      }#ELSE
+
+    }#THEN
     # Pearson's X^2 test (chi-square asymptotic distribution)
     else if (test == "x2") {
 
@@ -183,6 +214,37 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
       statistic = shcmi.test(datax, datay, config, ndata, gsquare = TRUE)
       df = (nlevels(datax) - 1) * (nlevels(datay) - 1) * nlevels(config)
       p.value = pchisq(statistic, df, lower.tail = FALSE)
+
+    }#THEN
+    # Mutual Infomation with df adjustment and data requirement heuristics
+    # (chi-square asymptotic distribution)
+    else if (test == "mi-adr") {
+
+      # heuristic 1 : when less than 5 individuals per cell in the
+      # contingency table, we claim independence (the test is not reliable)
+      if (nrow(data) < (5 * nlevels(datax) * nlevels(datay) * nlevels(config))) {
+
+        statistic = -1
+        p.value = 1
+
+      }#THEN
+      else {
+
+        # heuristic 2 : df is lowered when a column or row margin is empty in
+        # the contingency table.
+        test.res = cmi.test(datax, datay, config, ndata, gsquare = TRUE, withdf=TRUE)
+        statistic = test.res[1]
+        df = test.res[3]
+
+        # If the adjustement heuristic returns a df equal to zero, then one of
+        # the X or Y variables can be considered one-dimension given the data
+        # sample. In this case we claim independence.
+        if (df == 0)
+          p.value = 1
+        else
+          p.value = pchisq(statistic, df, lower.tail = FALSE)
+
+      }#ELSE
 
     }#THEN
     # Pearson's X^2 test (chi-square asymptotic distribution)
