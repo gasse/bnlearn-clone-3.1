@@ -370,17 +370,20 @@ conditional.test = function(x, y, sx, data, test, B, alpha = 1, learning = TRUE)
 }#CONDITIONAL.TEST
 
 # Mutual Information (discrete data)
-mi.test = function(x, y, ndata, gsquare = TRUE) {
+mi.test = function(x, y, ndata, gsquare = TRUE, withdf = FALSE) {
 
-  s = .Call("mi",
+  res = .Call("mi",
       x = x,
       y = y,
       lx = nlevels(x),
       ly = nlevels(y),
       length = ndata,
+      withdf = withdf,
       PACKAGE = "bnlearn")
 
-  ifelse(gsquare, 2 * ndata * s, s)
+  res[1] = ifelse(gsquare, 2 * ndata * res[1], res[1])
+
+  return(res)
 
 }#MI.TEST
 
@@ -416,9 +419,9 @@ mc.test = function(x, y, ndata, samples, alpha, test) {
 }#MC.TEST
 
 # Conditional Mutual Information (discrete data)
-cmi.test = function(x, y, z, ndata, gsquare = TRUE) {
+cmi.test = function(x, y, z, ndata, gsquare = TRUE, withdf = FALSE) {
 
-  s = .Call("cmi",
+  res = .Call("cmi",
       x = x,
       y = y,
       z = z,
@@ -426,9 +429,12 @@ cmi.test = function(x, y, z, ndata, gsquare = TRUE) {
       ly = nlevels(y),
       lz = nlevels(z),
       length = ndata,
+      withdf = withdf,
       PACKAGE = "bnlearn")
 
-  ifelse(gsquare, 2 * ndata * s, s)
+  res[1] = ifelse(gsquare, 2 * ndata * res[1], res[1])
+
+  return(res)
 
 }#CMI.TEST
 

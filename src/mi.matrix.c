@@ -62,7 +62,7 @@ int i = 0, j = 0;
 
             mim[UPTRI3(i + 1, j + 1, dim)] =
               c_mi(((int **)columns)[i], nlevels + i,
-                   ((int **)columns)[j], nlevels + j, num);
+                   ((int **)columns)[j], nlevels + j, num, NULL);
 
           }/*FOR*/
 
@@ -78,7 +78,7 @@ int i = 0, j = 0;
             mim[UPTRI3(i + 1, j + 1, dim)] =
               c_cmi(((int **)columns)[i], nlevels + i,
                     ((int **)columns)[j], nlevels + j,
-                    (int *)cond, clevels, num);
+                    (int *)cond, clevels, num, NULL);
 
           }/*FOR*/
 

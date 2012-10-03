@@ -12,6 +12,9 @@
 #define NUM(x) REAL(x)[0]
 #define NODE(i) CHAR(STRING_ELT(nodes, i))
 
+#define MAX(a, b) ( ((a) > (b)) ? (a) : (b) )
+#define MIN(a, b) ( ((a) < (b)) ? (a) : (b) )
+
 /* macro for the number of levels of the [,j] column. */
 #define NLEVELS(x) LENGTH(getAttrib(x, R_LevelsSymbol))
 #define NLEVELS2(data, j) \
@@ -154,8 +157,10 @@ SEXP schedule(SEXP bn, SEXP root_nodes, SEXP reverse, SEXP debug);
     ((double)(cell)) * log(((double)(cell)) * ((double)(zmarg)) / \
     (((double)(xmarg)) * ((double)(ymarg)))))
 
-double c_mi(int *xx, int *llx, int *yy, int *lly, int *num);
-double c_cmi(int *xx, int *llx, int *yy, int *lly, int *zz, int *llz, int *num);
+int c_adjusted_df(int **xmargins, int **ymargins, int xdims, int ydims, int zdims);
+
+double c_mi(int *xx, int *llx, int *yy, int *lly, int *num, int *df);
+double c_cmi(int *xx, int *llx, int *yy, int *lly, int *zz, int *llz, int *num, int *df);
 double c_mig(double *xx, double *yy, int *num);
 
 /* memory allocation functions */
