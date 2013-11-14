@@ -138,7 +138,7 @@ graph.generation.extra.args = list(
   "averaged" = "threshold"
 )
 
-cpq.algorithms = c("ls")
+cpq.algorithms = c("ls", "direct")
 
 cpq.labels = c(
   "ls" = "Logic/Forward Sampling"

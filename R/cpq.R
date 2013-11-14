@@ -58,6 +58,36 @@ conditional.probability.query = function(fitted, event, evidence, method,
     }#ELSE
 
   }#THEN
+  else if (method == "direct") {
+
+    # We need to know the joint distribution of :
+    #  - the target node (from event),
+    #  - the conditional nodes (from evidences),
+    #  - their parents
+    #  - their parent's parents
+    #  - etc.
+    nodes.involved = c(names(event), names(evidence))
+    nodes.to.check = nodes
+    while(length(nodes.to.check) > 0) {
+      for (node in to.check) {
+        parents = bn[[node]]$parents
+        nodes.to.check = setdiff(nodes.to.check, node)
+        nodes.to.check = union(nodes.to.check, setdiff(parents, nodes.involved))
+        nodes.involved = union(nodes.involved, parents)
+      }#FOR
+    }#WHILE
+    nbnodes = length(nodes.involved)
+
+    joint.distrib = expand.grid(dimnames(bn[[target]]$prob)[[1]])
+    for (node in nodes.involved) {
+      
+    }#FOR
+
+    cpt.table = expand.grid(lapply(names(event), function(x) {
+      dimnames(bn[[x]]$prob)[[1]]}))
+    names(cpt.table) = names(event)
+
+  }#THEN
 
 }#CONDITIONAL.PROBABILITY.QUERY
 
