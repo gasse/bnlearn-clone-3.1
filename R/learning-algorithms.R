@@ -659,7 +659,7 @@ nbr.backend = function(x, target, method, whitelist = NULL, blacklist = NULL,
 
     nbr = maxmin.pc.forward.phase(target, data = x, nodes = nodes, 
            alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
-           test = test, optimized = optimized, debug = debug)
+           test = test, debug = debug)
 
   }#THEN
   else if (method == "si.hiton.pc") {
